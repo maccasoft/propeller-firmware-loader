@@ -269,9 +269,21 @@ public class Loader {
                 dlg.setFilterNames(filterNames);
                 dlg.setFilterExtensions(filterExtensions);
                 dlg.setFilterIndex(0);
+
+                String filterPath = null;
                 if (parameters.getFile() != null) {
-                    dlg.setFilterPath(parameters.getFile().getParentFile().getAbsolutePath());
+                    File file = parameters.getFile().getAbsoluteFile().getParentFile();
+                    if (file != null) {
+                        filterPath = file.getAbsolutePath();
+                    }
                 }
+                if (filterPath == null) {
+                    filterPath = System.getProperty("APP_DIR");
+                }
+                if (filterPath != null) {
+                    dlg.setFilterPath(filterPath);
+                }
+
                 String fileName = dlg.open();
                 if (fileName != null) {
                     handleFileSelection(new File(fileName));

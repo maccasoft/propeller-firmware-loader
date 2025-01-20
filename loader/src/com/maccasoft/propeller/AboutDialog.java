@@ -63,7 +63,7 @@ public class AboutDialog extends Dialog {
         label.setLayoutData(new GridData(SWT.TOP, SWT.RIGHT, false, false));
         label.setImage(ImageRegistry.getImageFromResources("about.png"));
 
-        String title = Loader.APP_TITLE + " " + Loader.APP_VERSION;
+        String title = Loader.APP_TITLE + " " + Loader.APP_VERSION + " (beta)";
         final String eplLink = "http://www.eclipse.org/legal/epl-v10.html";
         final String epl = "Eclipse Public License v1.0";
         final String fugue = "Yusuke Kamiyamane";

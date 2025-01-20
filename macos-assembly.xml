@@ -1,0 +1,27 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+    <id>macos-${project.arch}</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <baseDirectory>${project.artifactId}</baseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>Loader.app/Contents/MacOS/lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+    <files>
+        <file><source>launcher/Info.plist</source><outputDirectory>Loader.app/Contents</outputDirectory></file>
+        <file><source>launcher/loader.macos</source><outputDirectory>Loader.app/Contents/MacOS</outputDirectory><destName>loader</destName><fileMode>755</fileMode></file>
+        <file><source>launcher/loader.icns</source><outputDirectory>Loader.app/Contents/Resources</outputDirectory></file>
+        <file><source>launcher/loader.macos</source><destName>loader</destName><fileMode>755</fileMode></file>
+        <file><source>LICENSE</source></file>
+    </files>
+    <fileSets>
+        <fileSet>
+            <directory>runtime/target/maven-jlink/default</directory>
+            <outputDirectory>Loader.app/Contents/Java</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

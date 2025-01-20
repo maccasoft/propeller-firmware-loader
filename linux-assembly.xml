@@ -1,0 +1,24 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+    <id>linux-${project.arch}</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <baseDirectory>${project.artifactId}</baseDirectory>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+    <files>
+        <file><source>launcher/loader</source><fileMode>755</fileMode></file>
+        <file><source>LICENSE</source></file>
+    </files>
+    <fileSets>
+        <fileSet>
+            <directory>runtime/target/maven-jlink/default</directory>
+            <outputDirectory>java</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

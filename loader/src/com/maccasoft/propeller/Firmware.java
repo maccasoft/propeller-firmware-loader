@@ -43,7 +43,7 @@ public class Firmware {
             }
             int binaryVersion = checksum == 0x14 ? 1 : 2;
 
-            String description = file.getName() + " - " + (binaryVersion == 1 ? "P8X32A Firmware" : "P2X8C4M64P Rev B/C Firmware");
+            String description = (binaryVersion == 1 ? "P8X32A Firmware" : "P2X8C4M64P Rev B/C Firmware");
 
             return new Firmware(binaryVersion, binaryImage, description);
 

@@ -1,0 +1,6 @@
+/.settings/
+/*.o
+/*.res
+/loader
+/loader.exe
+/target/

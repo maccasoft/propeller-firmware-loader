@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+EXEDIR="$(dirname -- "$(readlink -f -- "${0}")" )"
+
+if [ -x "$EXEDIR/Loader.app" ]; then
+    for LIB in \
+        "$EXEDIR"/Loader.app/Contents/MacOS/lib/*.jar \
+        ;
+    do
+        CLASSPATH="${CLASSPATH}:${LIB}"
+    done
+    JAVA="$EXEDIR"/Loader.app/Contents/Java/bin/java"
+    APPDIR=EXEDIR
+else
+    for LIB in \
+        "$EXEDIR"/lib/*.jar \
+        ;
+    do
+        CLASSPATH="${CLASSPATH}:${LIB}"
+    done
+    JAVA="$(dirname -- "$EXEDIR")/Java/bin/java"
+    APPDIR="$(dirname -- "$(dirname -- "$(dirname -- "$EXEDIR")")")"
+fi
+export CLASSPATH
+
+JAVA_OPTIONS=("-DAPP_DIR=$APPDIR" "-XstartOnFirstThread")
+
+"$JAVA" "${JAVA_OPTIONS[@]}" com.maccasoft.propeller.Loader "$@"

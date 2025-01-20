@@ -1,2 +1,5 @@
 /.settings/
 /target/
+/*.binary
+/*.json
+/*.png

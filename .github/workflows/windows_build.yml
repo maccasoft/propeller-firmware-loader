@@ -1,0 +1,48 @@
+name: Windows Build
+
+on:
+  push:
+    tags: [ '*' ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+
+    - name: checkout
+      uses: actions/checkout@v4
+
+    - name: setup-mingw64
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        install: make zip
+        pacboy: gcc dlfcn
+
+    - name: setup-java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'oracle'
+        java-version: '17'
+        cache: 'maven'
+
+    - name: build-launcher
+      run: |
+        make -C launcher clean all
+
+    - name: build
+      shell: powershell
+      run: |
+        mvn --batch-mode -DskipTests package
+
+    - name: upload
+      uses: softprops/action-gh-release@v2
+      with:
+        name: snapshot
+        tag_name: snapshot
+        files: |
+          target/propeller-firmware-loader-*

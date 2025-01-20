@@ -1,0 +1,43 @@
+name: Linux Build
+
+on:
+  push:
+    tags: [ '*' ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+          - os: ubuntu-22.04-arm
+
+    runs-on: ${{ matrix.os }}
+    steps:
+
+    - name: checkout
+      uses: actions/checkout@v4
+
+    - name: setup-java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'oracle'
+        java-version: '17'
+        cache: 'maven'
+
+    - name: build-launcher
+      run: |
+        make -C launcher clean all
+
+    - name: build
+      run: |
+        mvn --batch-mode -DskipTests package
+
+    - name: upload
+      uses: softprops/action-gh-release@v2
+      with:
+        name: snapshot
+        tag_name: snapshot
+        files: |
+          target/propeller-firmware-loader-*

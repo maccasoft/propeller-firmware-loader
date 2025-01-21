@@ -37,7 +37,5 @@ jobs:
     - name: upload
       uses: softprops/action-gh-release@v2
       with:
-        name: snapshot
-        tag_name: snapshot
         files: |
           target/propeller-firmware-loader-*

@@ -9,7 +9,7 @@ if [ -x "$EXEDIR/Loader.app" ]; then
     do
         CLASSPATH="${CLASSPATH}:${LIB}"
     done
-    JAVA="$EXEDIR"/Loader.app/Contents/Java/bin/java"
+    JAVA="$EXEDIR"/Loader.app/Contents/Java/bin/java
     APPDIR=EXEDIR
 else
     for LIB in \

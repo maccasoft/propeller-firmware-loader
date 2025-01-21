@@ -495,7 +495,7 @@ public class Loader {
                             break;
                         default:
                             description = "Error";
-                            styles.add(new StyleRange(sb.length(), description.length(), new Color(0x0C, 0x00, 0x00), null));
+                            styles.add(new StyleRange(sb.length(), description.length(), new Color(0xC0, 0x00, 0x00), null));
                             sb.append(description);
                             break;
                     }

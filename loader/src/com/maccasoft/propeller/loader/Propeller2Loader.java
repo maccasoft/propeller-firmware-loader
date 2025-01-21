@@ -136,10 +136,12 @@ public class Propeller2Loader extends PropellerLoader {
                 binaryImage[7] = (byte) (sum >> 24);
 
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new ComPortException("Missing flash loader binary");
             } finally {
                 try {
-                    is.close();
+                    if (is != null) {
+                        is.close();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

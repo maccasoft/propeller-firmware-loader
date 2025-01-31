@@ -98,6 +98,9 @@ int main(int argc, char * argv[])
     if (ptr != NULL) {
         *(ptr + 1) = '\0';
     }
+    else {
+        strcat(jvm_path, "Loader.app/Contents/");
+    }
     strcat(jvm_path, "Java/lib/libjli.dylib");
 #else
     strcat(jvm_path, "java/lib/server/libjvm.so");
@@ -242,6 +245,8 @@ extern unsigned int loader48_png_len;
 extern unsigned char loader64_png[];
 extern unsigned int loader64_png_len;
 
+static const char * base_name = "propeller-firmware-loader";
+
 void install_desktop_launcher()
 {
     FILE * fp;
@@ -250,7 +255,7 @@ void install_desktop_launcher()
 
     printf("Adding desktop shortcut and menu item...");
 
-    sprintf(filename, "%s/.local/share/applications/propeller-firmware-loader.desktop", home);
+    sprintf(filename, "%s/.local/share/applications/%s.desktop", home, base_name);
     mkdir_p(filename);
     if ((fp = fopen(filename, "w")) != NULL) {
         fprintf(fp, "[Desktop Entry]\n");
@@ -260,28 +265,28 @@ void install_desktop_launcher()
         fprintf(fp, "Comment=Propeller Firmware Loader 0.2.0 for Linux, Copyright 2025 Marco Maccaferri and Others. All rights reserved.\n");
         fprintf(fp, "Path=%s\n", app_root);
         fprintf(fp, "Exec=%s %%f\n", exe_path);
-        fprintf(fp, "Icon=propeller-firmware-loader\n");
+        fprintf(fp, "Icon=%s\n", base_name);
         fprintf(fp, "Terminal=false\n");
         fprintf(fp, "Categories=Development;IDE;Electronics;\n");
         fprintf(fp, "Keywords=embedded electronics;electronics;propeller;microcontroller;\n");
         fclose(fp);
     }
 
-    sprintf(filename, "%s/.local/share/icons/hicolor/32x32/apps/propeller-firmware-loader.png", home);
+    sprintf(filename, "%s/.local/share/icons/hicolor/32x32/apps/%s.png", home, base_name);
     mkdir_p(filename);
     if ((fp = fopen(filename, "w")) != NULL) {
         fwrite(loader32_png, loader32_png_len, 1, fp);
         fclose(fp);
     }
 
-    sprintf(filename, "%s/.local/share/icons/hicolor/48x48/apps/propeller-firmware-loader.png", home);
+    sprintf(filename, "%s/.local/share/icons/hicolor/48x48/apps/%s.png", home, base_name);
     mkdir_p(filename);
     if ((fp = fopen(filename, "w")) != NULL) {
         fwrite(loader48_png, loader48_png_len, 1, fp);
         fclose(fp);
     }
 
-    sprintf(filename, "%s/.local/share/icons/hicolor/64x64/apps/propeller-firmware-loader.png", home);
+    sprintf(filename, "%s/.local/share/icons/hicolor/64x64/apps/%s.png", home, base_name);
     mkdir_p(filename);
     if ((fp = fopen(filename, "w")) != NULL) {
         fwrite(loader64_png, loader64_png_len, 1, fp);
@@ -303,16 +308,16 @@ void uninstall_desktop_launcher()
 
     printf("Removing desktop shortcut and menu item...");
 
-    sprintf(filename, "%s/.local/share/applications/propeller-firmware-loader.desktop", home);
+    sprintf(filename, "%s/.local/share/applications/%s.desktop", home, base_name);
     unlink(filename);
 
-    sprintf(filename, "%s/.local/share/icons/hicolor/32x32/apps/propeller-firmware-loader.png", home);
+    sprintf(filename, "%s/.local/share/icons/hicolor/32x32/apps/%s.png", home, base_name);
     unlink(filename);
 
-    sprintf(filename, "%s/.local/share/icons/hicolor/48x48/apps/propeller-firmware-loader.png", home);
+    sprintf(filename, "%s/.local/share/icons/hicolor/48x48/apps/%s.png", home, base_name);
     unlink(filename);
 
-    sprintf(filename, "%s/.local/share/icons/hicolor/64x64/apps/propeller-firmware-loader.png", home);
+    sprintf(filename, "%s/.local/share/icons/hicolor/64x64/apps/%s.png", home, base_name);
     unlink(filename);
 
     int rc = system("xdg-desktop-menu forceupdate --mode user");

@@ -13,6 +13,7 @@
     </dependencySets>
     <files>
         <file><source>launcher/loader</source><fileMode>755</fileMode></file>
+        <file><source>launcher/loader48.png</source><destName>loader.png</destName></file>
         <file><source>LICENSE</source></file>
     </files>
     <fileSets>

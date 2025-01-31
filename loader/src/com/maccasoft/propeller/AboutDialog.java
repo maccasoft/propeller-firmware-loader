@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 import com.maccasoft.propeller.internal.ImageRegistry;
+import com.maccasoft.propeller.internal.LinkImage;
 
 public class AboutDialog extends Dialog {
 
@@ -60,17 +61,19 @@ public class AboutDialog extends Dialog {
         applyDialogFont(content);
 
         Label label = new Label(content, SWT.NONE);
-        label.setLayoutData(new GridData(SWT.TOP, SWT.RIGHT, false, false));
+        label.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false));
         label.setImage(ImageRegistry.getImageFromResources("about.png"));
 
         String title = Loader.APP_TITLE + " " + Loader.APP_VERSION + " (beta)";
-        final String eplLink = "http://www.eclipse.org/legal/epl-v10.html";
         final String epl = "Eclipse Public License v1.0";
+        final String eplLink = "http://www.eclipse.org/legal/epl-v10.html";
         final String fugue = "Yusuke Kamiyamane";
         final String fugueLink = "https://p.yusukekamiyamane.com/";
         final String cc = "Creative Commons\r\nAttribution 3.0";
         final String ccLink = "https://creativecommons.org/licenses/by/3.0/";
-        final String message = title + "\r\n" + "Copyright (c) 2025 Marco Maccaferri and others. All rights reserved.\r\n"
+        final String our = "Marco Maccaferri";
+        final String ourLink = "https://www.maccasoft.com/";
+        final String message = title + "\r\n" + "Copyright (c) 2025 " + our + " and others. All rights reserved.\r\n"
             + "\r\n"
             + "This program and the accompanying materials, unless otherwise specified,\r\n"
             + "are made available under the terms of the " + epl + ".\r\n"
@@ -114,6 +117,14 @@ public class AboutDialog extends Dialog {
         text.setStyleRange(style);
         linkRanges.add(style);
 
+        style = new StyleRange();
+        style.start = message.indexOf(our);
+        style.length = our.length();
+        style.underline = true;
+        style.underlineStyle = SWT.UNDERLINE_LINK;
+        text.setStyleRange(style);
+        linkRanges.add(style);
+
         text.addListener(SWT.MouseDown, new Listener() {
 
             @Override
@@ -123,6 +134,9 @@ public class AboutDialog extends Dialog {
                     for (StyleRange style : linkRanges) {
                         if (offset >= style.start && offset < (style.start + style.length)) {
                             String link = text.getText(style.start, style.start + style.length - 1);
+                            if (link.equals(our)) {
+                                link = ourLink;
+                            }
                             if (link.equals(epl)) {
                                 link = eplLink;
                             }
@@ -132,7 +146,6 @@ public class AboutDialog extends Dialog {
                             if (link.equals(cc)) {
                                 link = ccLink;
                             }
-                            System.out.println("[" + link + "]");
                             Program.launch(link);
                             break;
                         }
@@ -148,7 +161,41 @@ public class AboutDialog extends Dialog {
 
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.CLOSE_LABEL, true);
+        Label label;
+
+        ((GridData) parent.getLayoutData()).horizontalAlignment = SWT.FILL;
+
+        Composite content = new Composite(parent, SWT.NONE);
+        GridLayout layout = new GridLayout(2, false);
+        layout.marginHeight = layout.marginWidth = 0;
+        layout.verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+        layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+        content.setLayout(layout);
+        content.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+        ((GridLayout) parent.getLayout()).numColumns++;
+
+        if (Display.getDefault().getDismissalAlignment() == SWT.RIGHT) {
+            createKoFiLabel(content);
+
+            label = new Label(content, SWT.NONE);
+            label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+        }
+
+        createButton(content, IDialogConstants.OK_ID, IDialogConstants.CLOSE_LABEL, true);
+
+        if (Display.getDefault().getDismissalAlignment() != SWT.RIGHT) {
+            label = new Label(content, SWT.NONE);
+            label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+            createKoFiLabel(content);
+        }
+
+    }
+
+    void createKoFiLabel(Composite parent) {
+        LinkImage link = new LinkImage(parent);
+        link.setImage(ImageRegistry.getImageFromResources("support_me_on_kofi.png"));
+        link.setUrl("https://ko-fi.com/maccasoft");
     }
 
 }

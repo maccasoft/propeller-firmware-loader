@@ -81,7 +81,7 @@ import com.maccasoft.propeller.port.SerialComPort;
 public class Loader {
 
     public static final String APP_TITLE = "Propeller Firmware Loader";
-    public static final String APP_VERSION = "0.1.0";
+    public static final String APP_VERSION = "0.2.0";
 
     private static final int HORIZONTAL_DIALOG_UNIT_PER_CHAR = 4;
     private static final int VERTICAL_DIALOG_UNITS_PER_CHAR = 8;
@@ -897,6 +897,18 @@ public class Loader {
                     shell.setLayout(layout);
 
                     Loader app = new Loader(shell);
+
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                        FirmwarePack pack = mapper.readValue(new File(System.getProperty("APP_DIR"), "firmware.json"), FirmwarePack.class);
+                        app.updateFrom(pack);
+                        app.setEmbeddedFirmware(true);
+
+                    } catch (Exception e2) {
+                        // Do nothing
+                    }
+
                     app.createContents(shell);
 
                     shell.pack();

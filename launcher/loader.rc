@@ -26,12 +26,12 @@ BEGIN
     BEGIN
       VALUE "CompanyName", "MaccaSoft"
       VALUE "FileDescription", "Propeller Firmware Loader"
-      VALUE "FileVersion", "0.1.0.0"
+      VALUE "FileVersion", "0.2.0.0"
       VALUE "InternalName", "Propeller Firmware Loader"
       VALUE "LegalCopyright", "(c) 2025 Marco Maccaferri"
       VALUE "OriginalFilename", "loader.exe"
       VALUE "ProductName", "Propeller Firmware Loader"
-      VALUE "ProductVersion", "0.1.0.0"
+      VALUE "ProductVersion", "0.2.0.0"
     END
   END
   BLOCK "VarFileInfo"

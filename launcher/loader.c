@@ -257,7 +257,7 @@ void install_desktop_launcher()
         fprintf(fp, "Type=Application\n");
         fprintf(fp, "Name=Propeller Firmware Loader\n");
         fprintf(fp, "GenericName=Propeller Firmware Loader\n");
-        fprintf(fp, "Comment=Propeller Firmware Loader 0.1.0 for Linux, Copyright 2025 Marco Maccaferri and Others. All rights reserved.\n");
+        fprintf(fp, "Comment=Propeller Firmware Loader 0.2.0 for Linux, Copyright 2025 Marco Maccaferri and Others. All rights reserved.\n");
         fprintf(fp, "Path=%s\n", app_root);
         fprintf(fp, "Exec=%s %%f\n", exe_path);
         fprintf(fp, "Icon=propeller-firmware-loader\n");

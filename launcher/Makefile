@@ -20,7 +20,7 @@ else
 	UNAME_P := $(shell uname -p)
 	ifeq ($(UNAME_S),Linux)
 		CXXFLAGS += -I "$(JAVA_HOME)/include/linux"
-		LOADER_OBJS += loader32.o loader48.o loader64.o
+		LOADER_OBJS += loader16.o loader32.o loader48.o loader64.o
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		ifeq ($(UNAME_P),x86_64)

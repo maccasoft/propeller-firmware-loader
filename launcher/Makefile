@@ -3,6 +3,11 @@ LOADER = loader
 LOADER_OBJS = loader.o
 
 CXX = gcc
+XXD = xxd
+STRIP = strip
+WINDRES = windres
+RM = rm
+
 CXXFLAGS = -O2 -Wall -fmessage-length=0 -I "$(JAVA_HOME)/include"
 
 ifeq ($(OS),Windows_NT)
@@ -33,16 +38,16 @@ all: loader$(EXT)
 
 loader$(EXT): Makefile $(LOADER_OBJS)
 	$(CXX) -o $@ $(LOADER_OBJS) $(LIBS)
-	strip $@
+	$(STRIP) $@
 
 %.o: %.c
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 %.res: %.rc
-	windres -O coff -o $@ -i $<
+	$(WINDRES) -O coff -o $@ -i $<
 
 %.c : %.png
-	xxd -i $< $@
+	$(XXD) -i $< $@
 
 clean:
-	rm -f loader$(EXT) $(LOADER_OBJS)
+	$(RM) -f loader$(EXT) $(LOADER_OBJS)

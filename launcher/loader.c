@@ -56,7 +56,13 @@ int main(int argc, char * argv[])
     JavaVMInitArgs vm_args;
     char * error, * ptr;
 
-#ifdef _WIN32
+#if defined(__MINGW64__) ||  defined(__MINGW32__)
+    char * cwd_path = getcwd(NULL, 0);
+    if (cwd_path == NULL) {
+        printf("%s\n", strerror(errno));
+        exit(1);
+    }
+
     ptr = _fullpath(app_root, argv[0], sizeof(app_root) - 1);
     strcpy(exe_path, ptr);
     ptr = strrchr(app_root, '\\');
@@ -92,7 +98,9 @@ int main(int argc, char * argv[])
 
     strcpy(jvm_path, app_root);
 #if defined(__MINGW64__) ||  defined(__MINGW32__)
-    strcat(jvm_path, "java/bin/server/jvm.dll");
+    strcat(jvm_path, "java/bin");
+    chdir(jvm_path);
+    strcat(jvm_path, "/server/jvm.dll");
 #elif defined(__APPLE__)
     ptr = strstr(jvm_path, "/MacOS");
     if (ptr != NULL) {
@@ -139,7 +147,12 @@ int main(int argc, char * argv[])
     }
     dlerror();
 
-    *(void **) (&_DL_JNI_CreateJavaVM) = dlsym(jni_handle, "JNI_CreateJavaVM");
+    _DL_JNI_CreateJavaVM = dlsym(jni_handle, "JNI_CreateJavaVM");
+
+#if defined(__MINGW64__) ||  defined(__MINGW32__)
+    chdir(cwd_path);
+#endif
+
     if ((error = dlerror()) == NULL) {
         vm_args.version = JNI_VERSION_10;
         vm_args.nOptions = 0;

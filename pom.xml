@@ -73,30 +73,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                        <artifactId>launch4j-maven-plugin</artifactId>
-                        <version>2.1.3</version>
-                        <executions>
-                            <execution>
-                                <id>make-windows-executable</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>launch4j</goal>
-                                </goals>
-                                <configuration>
-                                    <infile>launcher/loader.xml</infile>
-                                    <outfile>launcher/loader.exe</outfile>
-                                    <versionInfo>
-                                        <fileVersion>${project.version}.0</fileVersion>
-                                        <txtFileVersion>${project.version}.0</txtFileVersion>
-                                        <productVersion>${project.version}.0</productVersion>
-                                        <txtProductVersion>${project.version}.0</txtProductVersion>
-                                    </versionInfo>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <configuration>
                             <descriptors>

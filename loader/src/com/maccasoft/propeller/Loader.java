@@ -452,8 +452,8 @@ public class Loader {
 
         Label label = new Label(group, SWT.NONE);
         label.setText("Target Devices");
-        allAvailable = new Button(group, SWT.RADIO);
-        allAvailable.setText("All available");
+
+        allAvailable = createRadioOrCheckButton(group, "All available", SWT.RADIO);
         allAvailable.setSelection(parameters.isUpdateAll());
         allAvailable.addSelectionListener(new SelectionAdapter() {
 
@@ -464,8 +464,7 @@ public class Loader {
 
         });
 
-        selectedOnly = new Button(group, SWT.RADIO);
-        selectedOnly.setText("Selected only");
+        selectedOnly = createRadioOrCheckButton(group, "Selected only", SWT.RADIO);
         selectedOnly.setSelection(!parameters.isUpdateAll());
 
         devicesViewer = CheckboxTableViewer.newCheckList(container, SWT.V_SCROLL | SWT.BORDER);
@@ -556,8 +555,7 @@ public class Loader {
         label = new Label(group, SWT.NONE);
         label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-        enableLocal = new Button(group, SWT.CHECK);
-        enableLocal.setText("Local");
+        enableLocal = createRadioOrCheckButton(group, "Local", SWT.CHECK);
         enableLocal.setSelection(parameters.isEnableLocal());
         enableLocal.addSelectionListener(new SelectionAdapter() {
 
@@ -567,8 +565,7 @@ public class Loader {
             }
 
         });
-        enableNetwork = new Button(group, SWT.CHECK);
-        enableNetwork.setText("Network");
+        enableNetwork = createRadioOrCheckButton(group, "Network", SWT.CHECK);
         enableNetwork.setSelection(parameters.isEnableNetwork());
         enableNetwork.addSelectionListener(new SelectionAdapter() {
 
@@ -607,6 +604,21 @@ public class Loader {
             }
 
         });
+    }
+
+    Button createRadioOrCheckButton(Composite parent, String text, int style) {
+        Button button = new Button(parent, style);
+        button.setText(text);
+
+        GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+        String theme = System.getProperty("org.eclipse.swt.internal.gtk.theme");
+        if (theme != null && theme.startsWith("Breeze")) {
+            //gridData.horizontalIndent = -4;
+            gridData.widthHint = button.computeSize(SWT.DEFAULT, SWT.DEFAULT).x + 8;
+        }
+        button.setLayoutData(gridData);
+
+        return button;
     }
 
     void createButtonsGroup(Composite parent) {
